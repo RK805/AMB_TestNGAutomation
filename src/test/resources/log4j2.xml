@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <!-- Define a property for today's date -->
+    <Properties>
+        <Property name="today">${date:dd-MM-yyyy}</Property>
+    </Properties>
+
+    <Appenders>
+
+        <!-- ====================== -->
+        <!-- Console Appender -->
+        <!-- ====================== -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- ====================== -->
+        <!-- Info Log (outside) -->
+        <!-- ====================== -->
+        <RollingFile name="InfoFile"
+                     fileName="logs/testng-info.log"
+                     filePattern="logs/testng-info-%d{dd-MM-yyyy}.log"
+                     append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+        </RollingFile>
+
+        <!-- ====================== -->
+        <!-- Error Log (outside) -->
+        <!-- ====================== -->
+        <RollingFile name="ErrorFile"
+                     fileName="logs/testng-error.log"
+                     filePattern="logs/testng-error-%d{dd-MM-yyyy}.log"
+                     append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!-- ====================== -->
+        <!-- Full Combined Log (in daily folder immediately) -->
+        <!-- ====================== -->
+        <RollingFile name="DailyFullLog"
+                     fileName="logs/${today}/full.log"
+                     filePattern="logs/${today}/full-%i.log"
+                     append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="InfoFile"/>
+            <AppenderRef ref="ErrorFile"/>
+            <AppenderRef ref="DailyFullLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
