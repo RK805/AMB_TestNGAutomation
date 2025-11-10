@@ -34,10 +34,15 @@ public class personalLoan extends BasePage  {
     }
 
     @Test(dependsOnMethods = {"testGoogle"})
-    public void personalLoanApply()
-    {
-            rbcRoyalInvestmentPage = new RbcRoyal_investmentPage();
-            rbcRoyalPersonalLoansPage = new RbcRoyal_personalLoansPage();
+    public void personalLoanApply() {
+        rbcRoyalInvestmentPage = new RbcRoyal_investmentPage();
+        rbcRoyalPersonalLoansPage = new RbcRoyal_personalLoansPage();
+
+        log.info("Starting performance timing for personal loan process...");
+
+        // Start timer
+        long startTime = System.currentTimeMillis();
+
         try {
             rbcRoyalInvestmentPage.clickPersonalLoans();
             rbcRoyalPersonalLoansPage.clickBorrowingReasonDropdown();
@@ -52,13 +57,24 @@ public class personalLoan extends BasePage  {
             rbcRoyalPersonalLoansPage.clickGetRelust();
             WebElementUtility.waitForPageLoad(driver, 10);
             String amount = rbcRoyalPersonalLoansPage.getResultAmount();
-            System.out.println("the return amount of the personalLoan : " + amount);
-        }
-        catch (AssertionError e) {
-            log.error("Login test failed: " + e.getMessage(), e);
+            System.out.println("The return amount of the personal loan: " + amount);
+
+        } catch (AssertionError e) {
+            log.error("Loan test failed: " + e.getMessage(), e);
             throw e;
+        }
+
+        // Stop timer
+        long endTime = System.currentTimeMillis();
+
+        // Calculate and log duration
+        long totalTime = endTime - startTime;
+        log.info("Total time taken for one user to complete the loan process: " + totalTime + " ms");
+
+        // Optional: You can fail the test if it exceeds a threshold (e.g., 10 seconds)
+        Assert.assertTrue(totalTime < 100000, "Performance issue: process took too long (" + totalTime + " ms)");
     }
-    }
+
 
     @AfterClass
     public void tearDown() {

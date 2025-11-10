@@ -7,8 +7,8 @@
     </listeners>
     <test name="LoanTests">
         <classes>
-<!--            <class name="tests.restBooker_withConfig"/>-->
-                <class name="tests.personalLoan"/>
+            <class name="tests.restBooker_withConfig"/>
+<!--                <class name="tests.personalLoan"/>-->
 <!--            <class name="tests.RRSF_FuturevalueCalculatoe"/>-->
 <!--            <class name="tests.Equity_Linked_GIC_return_Calculator"/>-->
 <!--            <class name="tests.Investment_Process_In_Mutual_Funds"/>-->
@@ -16,7 +16,7 @@
 <!--             <class name="tests.ApiDomeAppliaction"/>-->
 <!--                <class name="tests.CreateUserTest"/>-->
 <!--                <class name="tests.UpdateUserTest"/>-->
-<!--                <class name="tests.restBooker"/>-->
+<!--                <class name="tests.restBooker_withConfig"/>-->
         </classes>
     </test>
 </suite>

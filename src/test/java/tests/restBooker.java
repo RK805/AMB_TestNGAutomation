@@ -7,7 +7,7 @@ import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
+import Utility.EmailUtils;
 
 import java.io.File;
 
@@ -25,11 +25,10 @@ public class restBooker {
         return excel.getSheetData("BookingData");
     }
 
-    @Test( dataProvider = "bookingData")
+    @Test(dataProvider = "bookingData")
     public void testCreateBooking(String firstname, String lastname, String totalprice,
                                   String depositpaid, String checkin, String checkout, String additionalneeds) {
 
-        // Build JSON body dynamically
         String requestBody = String.format("""
                 {
                   "firstname": "%s",
@@ -46,7 +45,6 @@ public class restBooker {
 
         File schemaFile = new File("src/test/resources/schemas/createBookingSchema.json");
 
-        // POST request
         Response response = given()
                 .header("Content-Type", "application/json")
                 .header("Accept", "application/json")
@@ -63,10 +61,12 @@ public class restBooker {
 
         bookingId = response.path("bookingid");
         System.out.println("✅ Booking created successfully with ID: " + bookingId);
-        Assert.assertTrue(bookingId > 0, "Booking ID should be greater than 0");
+
+        // Send Booking ID via Email
+        EmailUtils.sendBookingIdMail(bookingId);
     }
 
-    @Test( dependsOnMethods = "testCreateBooking")
+    @Test(dependsOnMethods = "testCreateBooking")
     public void validateCreatedBookingSchema() {
         File schemaFile = new File("src/test/resources/schemas/bookingSchema.json");
 
@@ -80,5 +80,27 @@ public class restBooker {
                 .body(JsonSchemaValidator.matchesJsonSchema(schemaFile));
 
         System.out.println("✅ Booking schema validated successfully for ID: " + bookingId);
+    }
+
+    @Test(dependsOnMethods = {"validateCreatedBookingSchema"})
+    public void gettingBookingDetailsFromEmail() {
+        System.out.println("⏳ Waiting for email to arrive...");
+        try { Thread.sleep(10000); } catch (InterruptedException e) { e.printStackTrace(); } // wait 10s
+
+        int emailBookingId = EmailUtils.readBookingIdFromEmail();
+        Assert.assertTrue(emailBookingId > 0, "Booking ID not found in email!");
+        System.out.println("📬 Booking ID read from email: " + emailBookingId);
+
+        Response response = RestAssured
+                .given()
+                .log().all()
+                .get("https://restful-booker.herokuapp.com/booking/" + emailBookingId)
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().response();
+
+        System.out.println("✅ Verified booking details from email ID: " + emailBookingId);
+        Assert.assertNotNull(response.jsonPath().getString("firstname"));
     }
 }
