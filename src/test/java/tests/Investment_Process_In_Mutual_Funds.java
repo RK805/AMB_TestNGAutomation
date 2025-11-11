@@ -3,7 +3,6 @@ package tests;
 import RbcRoyalBank_Pages.RbcRoyal_investmentPage;
 import RbcRoyalBank_Pages.RbcRoyal_personalLoansPage;
 import Utility.BasePage;
-import Utility.WebElementUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;

@@ -29,6 +29,15 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.11.0</version>
+            <!-- change this scope -->
+            <scope>compile</scope>
+        </dependency>
+
+
         <!-- WebDriver Manager (Optional) -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
@@ -180,13 +189,11 @@
                 <version>3.1.2</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <!-- Path relative to the project root -->
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 
 </project>

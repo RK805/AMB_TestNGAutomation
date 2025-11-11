@@ -3,7 +3,6 @@ package RbcRoyalBank_Pages;
 import Utility.BrowserUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
