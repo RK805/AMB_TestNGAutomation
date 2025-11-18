@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
@@ -12,7 +14,13 @@
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Default values -->
+        <ENV>local</ENV>
+        <browser>chrome</browser>
+        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
     </properties>
+
     <dependencies>
         <!-- Selenium -->
         <dependency>
@@ -27,6 +35,7 @@
             <artifactId>testng</artifactId>
             <version>7.11.0</version>
             <scope>test</scope>
+
         </dependency>
 
         <dependency>
@@ -34,7 +43,7 @@
             <artifactId>testng</artifactId>
             <version>7.11.0</version>
             <!-- change this scope -->
-            <scope>compile</scope>
+            <!--            <scope>compile</scope>-->
         </dependency>
 
 
@@ -181,19 +190,67 @@
         </dependency>
 
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.5</version>
                 <configuration>
+                    <!-- TestNG suite XML -->
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
+
+                    <!-- Pass environment and browser -->
+                    <systemPropertyVariables>
+                        <ENV>${ENV}</ENV>
+                        <browser>${browser}</browser>
+                    </systemPropertyVariables>
+
+                    <!-- To run a specific test class via -Dtest -->
+<!--                    <includes>-->
+<!--                        <include>**/*.java</include>-->
+<!--                    </includes>-->
+
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Local -->
+        <profile>
+            <id>local</id>
+            <properties>
+                <ENV>local</ENV>
+            </properties>
+        </profile>
+
+        <!-- Selenium Grid -->
+        <profile>
+            <id>grid</id>
+            <properties>
+                <ENV>grid</ENV>
+            </properties>
+        </profile>
+
+        <!-- BrowserStack -->
+        <profile>
+            <id>browserstack</id>
+            <properties>
+                <ENV>browserstack</ENV>
+            </properties>
+        </profile>
+
+        <!-- LambdaTest -->
+        <profile>
+            <id>lambdatest</id>
+            <properties>
+                <ENV>lambdatest</ENV>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

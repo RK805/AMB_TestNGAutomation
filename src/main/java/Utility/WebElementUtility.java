@@ -25,7 +25,11 @@ public class WebElementUtility{
         return driver.findElements(locator);
     }
     public static boolean isElementDisplayed(WebDriver driver, By locator) {
-        return driver.findElement(locator).isDisplayed();
+        try {
+            return driver.findElement(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;   // Element not found → return false
+        }
     }
     public static String  getTextPageTitle(WebDriver driver) {
         return driver.getTitle();
@@ -146,6 +150,10 @@ public class WebElementUtility{
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeoutSeconds));
     }
 
+    public static void shortWait(WebDriver driver) throws InterruptedException {
+        Thread.sleep(5000);
+    }
+
     // srolling options
     public static void  scrollingToElementofAPage(WebDriver driver,By locator) {
         JavascriptExecutor js= (JavascriptExecutor) driver;
@@ -183,4 +191,67 @@ public class WebElementUtility{
             System.out.println("The radio button is NOT selected.");
         }
     }
+
+    // ---------------- existing methods kept as-is above this region ----------------
+    // (omit here for brevity) ...
+    // ---------------------------------------------------------------------------------
+
+    /**
+     * Blink a WebElement (by toggling border) — once.
+     * Use when you already have a WebElement reference.
+     */
+    public static void blinkElement(WebDriver driver, WebElement element) {
+        if (driver == null || element == null) return;
+
+        if (!(driver instanceof JavascriptExecutor)) {
+            // If driver doesn't support JS execution, do nothing
+            return;
+        }
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        try {
+            // Add red border
+            js.executeScript("arguments[0].style.border='3px solid red'", element);
+            Thread.sleep(100);  // short pause
+            // Remove border
+            js.executeScript("arguments[0].style.border=''", element);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // restore interrupted status
+        } catch (Exception e) {
+            System.out.println("blinkElement error: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Blink using a By locator (finds element first).
+     */
+    public static void blinkElement(WebDriver driver, By locator) {
+        try {
+            WebElement element = driver.findElement(locator);
+            blinkElement(driver, element);
+        } catch (Exception e) {
+            System.out.println("blinkElement(By) error: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Scroll to, blink, hover (move mouse), but do not click.
+     */
+    public static void hoverWithBlink(WebDriver driver, By locator) {
+        try {
+            WebElement element = driver.findElement(locator);
+            // scroll into view
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            // blink
+            blinkElement(driver, element);
+            // hover
+            new Actions(driver).moveToElement(element).perform();
+        } catch (Exception e) {
+            System.out.println("hoverWithBlink error: " + e.getMessage());
+        }
+    }
+
+
 }

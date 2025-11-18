@@ -1,37 +1,42 @@
 package Utility;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.URL;
 
 public class BasePage {
-    protected static WebDriver driver;
-    protected static final Logger log = LogManager.getLogger(BasePage.class);
 
-    public static void initializeDriver(String browser) {
-        log.info("Initializing browser: " + browser);
+    public WebDriver initializeDriver(String browser, String ENV) throws Exception {
+        WebDriver driver;
 
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver = new org.openqa.selenium.chrome.ChromeDriver();
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = new org.openqa.selenium.firefox.FirefoxDriver();
+        if (ENV.equalsIgnoreCase("local")) {
+            if (browser.equalsIgnoreCase("chrome")) {
+                driver = new ChromeDriver();
+            } else if (browser.equalsIgnoreCase("firefox")) {
+                driver = new FirefoxDriver();
+            } else {
+                throw new Exception("Browser not supported: " + browser);
+            }
+        } else if (ENV.equalsIgnoreCase("grid")) {
+            if (browser.equalsIgnoreCase("chrome")) {
+                ChromeOptions options = new ChromeOptions();
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+            } else if (browser.equalsIgnoreCase("firefox")) {
+                FirefoxOptions options = new FirefoxOptions();
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+            } else {
+                throw new Exception("Browser not supported: " + browser);
+            }
         } else {
-            log.error("Unsupported browser: " + browser);
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
+            throw new Exception("ENV not supported: " + ENV);
         }
 
         driver.manage().window().maximize();
-        log.info(browser + " browser launched successfully.");
-    }
-
-    public static void quitDriver() {
-        if (driver != null) {
-            log.info("Closing the browser");
-            driver.quit();
-        }
-    }
-
-    public WebDriver getDriver() {
         return driver;
     }
 }

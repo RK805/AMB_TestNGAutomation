@@ -1,12 +1,21 @@
 package RbcRoyalBank_Pages;
 
-import Utility.BasePage;
 import Utility.WebElementUtility;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class RbcRoyal_personalLoansPage extends BasePage
+public class RbcRoyal_personalLoansPage
 {
+
+    private WebDriver driver;
+
+    public RbcRoyal_personalLoansPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    private static final Logger log = LogManager.getLogger(RbcRoyal_personalLoansPage.class);
 
     public static By personalLoansLink = By.xpath("//h2[@class='text-center mar-b']");
     public static By borrowingReasonDropdown = By.xpath("//div[@class='select-wpr required']/select");
