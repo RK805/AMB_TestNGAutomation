@@ -1,13 +1,18 @@
 package RbcRoyalBank_Pages;
 
-
-import Utility.BasePage;
 import Utility.WebElementUtility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 
-public class RbcRoyal_DashBordPage extends BasePage {
+public class RbcRoyal_DashBordPage  {
+
+    private WebDriver driver;
+
+    // Constructor receives driver from test
+    public RbcRoyal_DashBordPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     private static final String HOME_PAGE_URL = "https://www.rbcroyalbank.com/";
 
@@ -17,9 +22,7 @@ public class RbcRoyal_DashBordPage extends BasePage {
     public static By allCalculate=By.xpath("//a[normalize-space()='All Investment Tools & Calculators']");
     public static By Loans = By.xpath("//a[text()='Loans' and @data-dig-action='Click Button']");
     public static By personalLoans = By.xpath("//a[contains(@data-dig-label,'Personal Loans')]");  //Personal Loans
-//    public RbcRoyal_DashBordPage(WebDriver driver) {
-//        super(driver);
-//    }
+
 
     public void navigateTOHomePage() {
         driver.get(HOME_PAGE_URL);

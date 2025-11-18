@@ -4,11 +4,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
-import Utility.BasePage;
+
 import Utility.WebElementUtility;
+import org.openqa.selenium.WebDriver;
 
-public class AccountCreated_Page extends BasePage {
+public class AccountCreated_Page  {
 
+	private WebDriver driver;
+
+	public AccountCreated_Page(WebDriver driver) {
+		this.driver = driver;
+	}
 	private static final Logger log = LogManager.getLogger(AccountCreated_Page.class);
 	
     public static By CheckTheCreatAccountConfimMassage = By.xpath("//h2[@data-qa='account-created']//parent::div//a[text()='Continue']");

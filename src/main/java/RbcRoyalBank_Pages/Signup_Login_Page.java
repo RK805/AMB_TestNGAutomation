@@ -3,14 +3,20 @@ package RbcRoyalBank_Pages;
 import Utility.RandomUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.openqa.selenium.By;
-
-import Utility.BasePage;
 import Utility.WebElementUtility;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
-public class Signup_Login_Page extends BasePage {
-	
+public class Signup_Login_Page  {
+
+	private WebDriver driver;
+
+	public Signup_Login_Page(WebDriver driver) {
+		this.driver = driver;
+	}
+
 	private static final Logger log = LogManager.getLogger(Signup_Login_Page.class);
 	
 	public static By signOption = By.xpath("//h2[text()='New User Signup!']");

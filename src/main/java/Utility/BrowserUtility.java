@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class BrowserUtility extends BasePage {
+public class BrowserUtility  {
 
-//    public BrowserUtility(WebDriver driver) {
-//        super(driver);
-//    }
+    private WebDriver driver;
+
+    public BrowserUtility(WebDriver driver) {
+        this.driver= driver;
+    }
 
     // Selenium Browser Initialization
     public static void openUrl(WebDriver driver, String url) {

@@ -3,14 +3,20 @@ package RbcRoyalBank_Pages;
 import Utility.BrowserUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.openqa.selenium.By;
-
-import Utility.BasePage;
 import Utility.WebElementUtility;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
-public class Signup_Page extends BasePage{
-	
+public class Signup_Page {
+
+	private WebDriver driver;
+
+	public Signup_Page(WebDriver driver) {
+		this.driver = driver;
+	}
+
 private static final Logger log = LogManager.getLogger(Home_Pages.class);
 	
 	public static By AccountInformation = By.xpath("//b[text()='Enter Account Information']");

@@ -1,13 +1,22 @@
 package RbcRoyalBank_Pages;
 
-import Utility.BasePage;
+
 import Utility.BrowserUtility;
 import Utility.WebElementUtility;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class RbcRoyal_investmentPage extends BasePage {
+public class RbcRoyal_investmentPage  {
 
+    private WebDriver driver;
+
+    public RbcRoyal_investmentPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    private static final Logger log = LogManager.getLogger(RbcRoyal_investmentPage.class);
 
     public static By  Investments = By.xpath("//a[text()='Investments' and @data-dig-action='Click Button']");
     public static By Investments_mutualFunds = By.xpath("//a[contains(@data-dig-label,'Investments - Mutual Funds')]");

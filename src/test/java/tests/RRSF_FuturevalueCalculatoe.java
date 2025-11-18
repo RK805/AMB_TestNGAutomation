@@ -3,17 +3,15 @@ package tests;
 import RbcRoyalBank_Pages.RbcRoyal_InvestmentCalculatorsAndToolsPage;
 import RbcRoyalBank_Pages.RbcRoyal_RRSF_FutureValueCalculatorPage;
 import RbcRoyalBank_Pages.RbcRoyal_investmentPage;
-
-import Utility.BasePage;
-
+import base.BaseTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class RRSF_FuturevalueCalculatoe extends BasePage {
+public class RRSF_FuturevalueCalculatoe extends BaseTest {
 
-    private static final Logger log = LogManager.getLogger(personalLoan.class);
+    private static final Logger log = LogManager.getLogger(personalLoanTest.class);
 
     RbcRoyal_investmentPage rbcRoyalInvestmentPage ;
     RbcRoyal_RRSF_FutureValueCalculatorPage rbcRoyalRrsfFutureValueCalculatorPage;
@@ -23,7 +21,7 @@ public class RRSF_FuturevalueCalculatoe extends BasePage {
     @BeforeClass
     public void setUp(@Optional("chrome") String browser) {
         log.info("Starting test setup");
-        initializeDriver(browser);
+//        initializeDriver(browser);
     }
     @Test
     public void testGoogle() {
@@ -38,9 +36,9 @@ public class RRSF_FuturevalueCalculatoe extends BasePage {
     @Test(dependsOnMethods = {"testGoogle"})
     public void AllInvestmentToolsAndCalculators()
     {
-        rbcRoyalInvestmentPage = new RbcRoyal_investmentPage();
-        rbcRoyalRrsfFutureValueCalculatorPage = new RbcRoyal_RRSF_FutureValueCalculatorPage();
-        rbcRoyalInvestmentCalculatorsAndToolsPage = new RbcRoyal_InvestmentCalculatorsAndToolsPage();
+        rbcRoyalInvestmentPage = new RbcRoyal_investmentPage(driver);
+        rbcRoyalRrsfFutureValueCalculatorPage = new RbcRoyal_RRSF_FutureValueCalculatorPage(driver);
+        rbcRoyalInvestmentCalculatorsAndToolsPage = new RbcRoyal_InvestmentCalculatorsAndToolsPage(driver);
 
         try {
             rbcRoyalInvestmentPage.clickAllInvestmentToolsAndCalculators();
@@ -83,6 +81,6 @@ public class RRSF_FuturevalueCalculatoe extends BasePage {
     @AfterClass
     public void tearDown() {
         log.info("Tearing down test");
-        quitDriver();
+//        quitDriver();
     }
 }

@@ -1,14 +1,19 @@
 package RbcRoyalBank_Pages;
 
-import Utility.BasePage;
+
 import Utility.WebElementUtility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class RbcRoyal_Equity_linkedGICsPage extends BasePage {
-//    public RbcRoyal_Equity_linkedGICsPage(WebDriver driver) {
-//        this.driver = driver;
-//    }
+public class RbcRoyal_Equity_linkedGICsPage   {
+
+
+    private WebDriver driver;
+
+    // Constructor receives driver from test
+    public RbcRoyal_Equity_linkedGICsPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     public static By log = By.xpath("//h2[@class='accordion-title active']");
     public static By initialInvestment = By.xpath("//div[@id='principal-container']//input[@id='principalamount']");

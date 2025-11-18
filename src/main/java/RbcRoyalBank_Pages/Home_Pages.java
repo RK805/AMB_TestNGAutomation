@@ -2,13 +2,22 @@ package RbcRoyalBank_Pages;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
+//import org.junit.Assert;
 import org.openqa.selenium.By;
 
-import Utility.BasePage;
-import Utility.WebElementUtility;
 
-public class Home_Pages extends BasePage{
+import Utility.WebElementUtility;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+public class Home_Pages {
+
+	private WebDriver driver;
+
+	// Constructor receives driver from test
+	public Home_Pages(WebDriver driver) {
+		this.driver = driver;
+	}
 
 	private static final Logger log = LogManager.getLogger(Home_Pages.class);
 	
